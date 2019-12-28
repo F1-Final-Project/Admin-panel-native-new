@@ -1,0 +1,1 @@
+import React from 'react';import Menu from '../components/Menu';export default function MenuScreen() {    return <Menu/>}MenuScreen.navigationOptions = {    header: null,};

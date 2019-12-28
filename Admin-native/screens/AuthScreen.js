@@ -90,7 +90,7 @@ export default function AuthScreen() {
                 if (res) {
                     if (res.data.login.permission === 'admin') {
                         setTimeout(() => {
-                            navigate('Main')
+                            navigate('Menu')
                         }, 0)
                     } else if (res.data.login.permission === 'cook') {
                         setTimeout(() => {

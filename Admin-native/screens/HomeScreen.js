@@ -32,6 +32,7 @@ export default function HomeScreen() {
                 style={styles.container}
                 contentContainerStyle={styles.contentContainer}>
                 <Button title="DELETE ASYNCSTORAGE" style={styles.BTNCLOSE} onPress={() => handleCloseAsyncStorage()}/>
+                <Button title="MEEEEENU!!!" style={styles.BTNCLOSE} onPress={() => navigate('Menu')}/>
                 <View style={styles.welcomeContainer}>
                     <Image
                         source={
