@@ -1,0 +1,1 @@
+export default class Filter {    static filterDrink (arr) {        return arr ? arr.filter(item => item.title === 'Алкоголь') : [];    }    static filterCategoryMenu (arr) {        return arr ? arr.filter(item => item.title !== 'Алкоголь') : [];    }    static filterDishByIdCategory(arr, id){        return arr ? arr.filter(item => item.category.id === id) : [];    }}

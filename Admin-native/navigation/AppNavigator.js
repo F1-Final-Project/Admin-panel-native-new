@@ -12,7 +12,7 @@ export default createAppContainer(
             AuthLoading: AuthLoadingStack,
             Auth: AuthStack,
             Main: MainTabNavigator,
-            Menu: MenuStack
+            Menu: MenuStack,
 
         },
         {
