@@ -5,7 +5,7 @@ import {
     Animated,
     Easing,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity, Keyboard,TouchableWithoutFeedback
 } from "react-native";
 
 import Header from "../Header";
@@ -26,12 +26,12 @@ export default function AnimatedModal(props) {
 
             Animated.spring(yTranslate, {
                 toValue: 1,
-                friction: 30
+                friction: 5
             }).start();
         } else {
             Animated.timing(yTranslate, {
                 toValue: 0,
-                duration: 200,
+                duration: 0,
                 easing: Easing.linear
             }).start();
 
@@ -50,15 +50,16 @@ export default function AnimatedModal(props) {
     const translateStyle = {transform: [{translateY: modalMoveY}]};
 
     return (
-        <Animated.View style={[styles.container, translateStyle]}>
-            <Header title={title}>
-                <TouchableOpacity onPress={onClose}>
-                    <Text style={styles.closeText}>Close</Text>
-                </TouchableOpacity>
-            </Header>
-            <View style={styles.modalContent}>{props.children}</View>
-        </Animated.View>
-
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <Animated.View style={[styles.container, translateStyle]}>
+                <Header title={title}>
+                    <TouchableOpacity onPress={onClose}>
+                        <Text style={styles.closeText}>Close</Text>
+                    </TouchableOpacity>
+                </Header>
+                <View style={styles.modalContent}>{children}</View>
+            </Animated.View>
+        </TouchableWithoutFeedback>
     )
 }
 

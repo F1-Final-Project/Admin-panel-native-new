@@ -9,6 +9,12 @@ export default function (state = initState, action) {
                     product: action.payload,
                 },
             };
+        case 'onChangeInput':
+            return {
+                ...{
+                    product: action.payload,
+                },
+            };
 
         default:
             return state

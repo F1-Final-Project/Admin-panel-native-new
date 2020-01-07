@@ -8,7 +8,7 @@ import {
     Dimensions, ImageBackground,
     View,
     Button,
-    PanResponder, Animated,
+    PanResponder, Animated,Keyboard
 } from "react-native";
 import {FlatList} from 'react-native-gesture-handler';
 import DishItem from '../components/DishItem'
@@ -73,6 +73,7 @@ export default function IngredientsStoreScreen() {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleCloseModal = () => {
+
         setIsModalVisible(false);
 
         dispatch({

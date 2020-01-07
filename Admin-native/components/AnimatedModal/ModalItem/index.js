@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useCallback} from 'react'
 import {
     Text,
     TouchableHighlight,
@@ -10,12 +10,22 @@ import {
     PanResponder, Animated,
 } from "react-native";
 import {TextInput} from "react-native-paper";
-import uuid from 'uuid'
 import {Context} from '../../../context/appContext'
 
 export default function ModalItem() {
 
     const {dispatch, state} = useContext(Context);
+
+
+    const handleInputChange = (name, e) => {
+        const updatedIngredient = Object.assign(state.product, {[name]: e});
+        dispatch({
+            ...{
+                type: 'onChangeInput',
+                payload: updatedIngredient,
+            },
+        })
+    };
 
     /**
      * @desc Функция для отображения вывода зависящих от типа данных разных элементов
@@ -25,37 +35,37 @@ export default function ModalItem() {
      */
 
     const handleInputItems = () => {
-        return Object.keys(state.product).map((key, index) => {
+        return Object.keys(state.product).map((itemProduct, index) => {
 
-            let itemValue = state.product[key];
+            let itemValue = state.product[itemProduct];
 
-            if (key !== '_id'
-                && key !== '__v'
-                && key !== undefined
+            if (itemProduct !== '_id'
+                && itemProduct !== '__v'
+                && itemProduct !== undefined
                 && typeof itemValue !== 'object'
-                && key !== 'additionalIngredients'
+                && itemProduct !== '__typename'
                 || itemValue === null) {
                 return <TextInput
-                    label='Email'
+                    label={itemProduct.toUpperCase()}
                     style={styles.authTextField}
                     underlineColor={"#7a6c5b"}
-                    // onChangeText={handleEmailChange}
+                    onChangeText={e => handleInputChange(itemProduct, e)}
                     keyboardAppearance="dark"
-                    keyboardType="email-address"
-                    //value={formValidate.email}
-                    key={uuid()}
+                    keyboardType='default'
+                    value={itemValue === null ? 0 : itemValue.toString()}
+                    key={index}
+                    multiline={true}
                 />
 
-            } else if (key !== '_id'
-                && key !== '__v'
-                && key !== undefined
+            } else if (itemProduct !== '_id'
+                && itemProduct !== '__v'
+                && itemProduct !== undefined
                 && typeof itemValue === 'object'
-                && key !== 'additionalIngredients'
                 && itemValue !== null) {
                 return Array.isArray(itemValue) ? (
-                        <Text key={uuid()}>Array</Text>
+                        <Text key={index}>Array</Text>
                     )
-                    : (<Text key={uuid()}>Select</Text>
+                    : (<Text key={index}>Select</Text>
                     )
             }
         })
