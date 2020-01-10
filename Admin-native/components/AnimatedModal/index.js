@@ -5,7 +5,9 @@ import {
     Animated,
     Easing,
     Dimensions,
-    TouchableOpacity, Keyboard,TouchableWithoutFeedback
+    TouchableOpacity,
+    Keyboard,
+    TouchableWithoutFeedback
 } from "react-native";
 
 import Header from "../Header";
@@ -51,13 +53,13 @@ export default function AnimatedModal(props) {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <Animated.View style={[styles.container, translateStyle]}>
-                <Header title={title}>
-                    <TouchableOpacity onPress={onClose}>
-                        <Text style={styles.closeText}>Close</Text>
-                    </TouchableOpacity>
-                </Header>
-                <View style={styles.modalContent}>{children}</View>
+            <Animated.View style={[styles.container, translateStyle]} vertical>
+                    <Header title={title}>
+                        <TouchableOpacity onPress={onClose}>
+                            <Text style={styles.closeText}>{state.saveOrClose ? 'Save' : 'Close'}</Text>
+                        </TouchableOpacity>
+                    </Header>
+                    <View style={styles.modalContent}>{children}</View>
             </Animated.View>
         </TouchableWithoutFeedback>
     )

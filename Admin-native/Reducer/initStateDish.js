@@ -1,3 +1,6 @@
-export const initState ={
-    product: {}
+export const initState = {
+    product: {},
+    nameSection: '',
+    saveOrClose: false,
+    itemId: ''
 };

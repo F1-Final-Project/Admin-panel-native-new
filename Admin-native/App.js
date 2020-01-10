@@ -19,9 +19,13 @@ const httpLink = new HttpLink({uri: 'https://f1-graphql-server.herokuapp.com/gra
 const authHeader = setContext(
     request =>
         new Promise((success, fail) => {
-            AsyncStorage.getItem('token').then(token => success({headers: {authorization: `Bearer ${token}`}}))
+            AsyncStorage.getItem('token').then(token => success({headers: {
+
+                authorization: `Bearer ${token}`,
+                }}))
         })
 );
+
 
 const client = new ApolloClient({
     link: concat(authHeader, httpLink),

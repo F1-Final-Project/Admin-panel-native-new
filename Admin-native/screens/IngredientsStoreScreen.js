@@ -1,26 +1,14 @@
-import React, {useEffect, useState, useReducer} from 'react'
+import React, {useEffect, useReducer} from 'react'
 import {
     Text,
-    TouchableHighlight,
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Dimensions, ImageBackground,
-    View,
-    Button,
-    PanResponder, Animated,Keyboard
 } from "react-native";
-import {FlatList} from 'react-native-gesture-handler';
-import DishItem from '../components/DishItem'
 
-import AppleStyleSwipeableRow from '../components/SwipeableRow';
-import {useQuery} from "@apollo/react-hooks";
+import {useQuery, useMutation} from "@apollo/react-hooks";
 import {gql} from "apollo-boost";
-import AnimatedModal from '../components/AnimatedModal'
-import ModalItem from '../components/AnimatedModal/ModalItem'
 import {Context} from '../context/appContext'
 import reducer from '../Reducer'
 import {initState} from '../Reducer/initStateDish'
+import Dishes from '../components/Dish'
 
 
 const GET_ALL_DISH = gql`{
@@ -32,107 +20,116 @@ const GET_ALL_DISH = gql`{
       id,
       title
     }
+  },
+  ingredientAll{
+    id,
+    title,
+  },
+  categoryAll{
+  id,
+  title,
   }
 }
   `;
+
+const UPDATE_DISHES = gql`
+mutation updateDish(
+  $id: ID!
+  $title: String!,
+  $description: String!,
+  $img: String!,
+  $category: ID!,
+  $ingredients: [ID]!,
+  $additionalIngredients: [ID]!,
+  $price: Float!,
+  $weight: Float!
+) {
+
+updateDish(
+  id: $id
+  title: $title,
+  description: $description,
+  img: $img,
+  category: $category,
+  ingredients: $ingredients,
+  additionalIngredients: $additionalIngredients,
+  price: $price,
+  weight: $weight) {
+
+  id,
+  title,
+  img,
+  price,
+  weight,
+  description,
+  category {
+  id,
+  title },
+  },
+}`;
+
+const DELETE_DISH = gql`
+mutation updateDish($id: ID){
+deleteDish(id: $id) {
+id
+}
+}`;
+
 
 
 
 export default function IngredientsStoreScreen() {
 
-    const {loading, error, data} = useQuery(GET_ALL_DISH);
-
-    const [allDish, setAllDish] = useState([]);
-
-
     const [state, dispatch] = useReducer(reducer, initState);
 
-    useEffect(() => {
-        if (!loading && data !== undefined && !error) {
-            setAllDish(data.dishAll)
-        }
+    const {loading, error, data, refetch} = useQuery(GET_ALL_DISH);
 
-    }, [data]);
+    const [updateDish] = useMutation(UPDATE_DISHES);
+    const [deleteDish] = useMutation(DELETE_DISH);
 
-    const Row = ({item}) => {
-        return (
-            <DishItem item={item}/>
-        )
+
+    const updateItems = () => {
+        const {
+            title,
+            description,
+            img,
+            category,
+            ingredients,
+            price,
+            weight
+        } = state.product;
+
+        const ingredientsId = ingredients.map(i => i.id);
+
+        updateDish({
+            variables: {
+                id: state.itemId,
+                title: title,
+                description: description,
+                img: img,
+                category: category.id,
+                ingredients: ingredientsId,
+                additionalIngredients: ingredientsId,
+                price: Number(price),
+                weight: Number(weight),
+            }
+        })
     };
 
+    console.log(typeof null);
 
-    const SwipeableRow = ({item, index, ModalVisible}) => {
-        return (
-            <AppleStyleSwipeableRow ModalVisible={ModalVisible} item={item}>
-                <Row item={item} nameSection={'Categories'}/>
-            </AppleStyleSwipeableRow>
-        );
-
+    const deleteItem = id => {
+        deleteDish({variables: {id: id}})
+        refetch()
     };
-
-    const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const handleCloseModal = () => {
-
-        setIsModalVisible(false);
-
-        dispatch({
-            type: 'editItem',
-            payload: '',
-        });
-
-    };
-
 
     return (
         <Context.Provider value={{
             dispatch, state
         }}>
-            <ImageBackground source={require('../img/bgc.jpg')} style={styles.projectBgc}>
-
-                <FlatList
-                    style={styles.listContainer}
-                    data={loading && allDish === undefined ? [] : allDish}
-                    ItemSeparatorComponent={() => <View style={styles.separator}/>}
-                    renderItem={({item, index}) => {
-                        return (
-                            <SwipeableRow item={item} index={index} ModalVisible={setIsModalVisible}/>
-                        )
-                    }}
-                    keyExtractor={(item, index) => `message ${index}`}
-                />
-                <AnimatedModal
-                    title={"Edit"}
-                    visible={isModalVisible}
-                    onClose={() => handleCloseModal()}
-                ><ModalItem/></AnimatedModal>
-            </ImageBackground>
+            {loading || error ? <Text>123</Text> : <Dishes data={data} updateItems={updateItems} deleteItem={deleteItem}/>}
         </Context.Provider>
     )
 }
 
-const {height, width} = Dimensions.get("window");
-
-const styles = StyleSheet.create({
-    projectBgc: {
-        width: width,
-        height: height,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-        backgroundColor: '#212121',
-    },
-    separator: {
-        height: StyleSheet.hairlineWidth,
-        borderBottomWidth: 1,
-        borderBottomColor: '#E9C294',
-    },
-    listContainer: {
-        marginTop: '10%',
-        //width: '90%',
-
-    }
-
-});
 

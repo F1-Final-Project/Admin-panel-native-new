@@ -1,58 +1,45 @@
 import React, {useContext, useEffect} from 'react';
-import {Animated, StyleSheet, Text, View, I18nManager} from 'react-native';
+import {Animated, StyleSheet, Text, View, I18nManager, Alert} from 'react-native';
 import {Context} from '../../context/appContext'
 
 import {RectButton} from 'react-native-gesture-handler';
 
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import {useLazyQuery} from "@apollo/react-hooks";
-import gql from "graphql-tag";
 
-
-const GET_DISH_BY_ID = gql`
-                    query getDishById($id: ID!){
-                      dish(id: $id){
-                        title
-                      description
-                      img
-                      category {
-                        id
-                        title
-                      }
-                      ingredients {
-                        id
-                        title
-                      }
-                      price
-                      weight
-                      }
-                    }
-                `;
 
 export default function AppleStyleSwipeableRow(props) {
 
-    const {ModalVisible, item} = props;
+    const {ModalVisible, data, item, deleteItem} = props;
     const {dispatch, state} = useContext(Context);
 
 
-    const [getDish, {loading, data}] = useLazyQuery(GET_DISH_BY_ID,
-        {
-            fetchPolicy: "cache-and-network"
-        });
-
-    useEffect(() => {
-        getDish({
-            variables: {id: item.id}
-        });
-    }, [getDish, data]);
 
     const renderLeftActions = (progress, dragX) => {
         const trans = dragX.interpolate({
             inputRange: [0, 50, 100, 101],
             outputRange: [-20, 0, 0, 1],
         });
+
+        const pressHandler = () => {
+
+            Alert.alert(
+                'Delete',
+                'Are you sure you want to delete',
+                [
+                    {
+                        text: 'Cancel',
+                        onPress: () => close(),
+                        style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => deleteItem(item.id)},
+                ],
+                {cancelable: false},
+            );
+
+        };
+
         return (
-            <RectButton style={styles.leftAction} onPress={close}>
+            <RectButton style={styles.leftAction} onPress={pressHandler}>
                 <Animated.Text
                     style={[
                         styles.actionText,
@@ -65,7 +52,8 @@ export default function AppleStyleSwipeableRow(props) {
             </RectButton>
         );
     };
-    const renderRightAction = (text, color, x, progress) => {
+
+    const renderRightAction = (text, color, x, progress, id) => {
         const trans = progress.interpolate({
             inputRange: [0, 1],
             outputRange: [x, 0],
@@ -78,6 +66,8 @@ export default function AppleStyleSwipeableRow(props) {
             dispatch({
                 type: 'editItem',
                 payload: data.dish,
+                nameSection: id,
+                itemId: item.id,
             });
 
         };
@@ -95,7 +85,8 @@ export default function AppleStyleSwipeableRow(props) {
 
     const renderRightActions = progress => (
         <View style={{width: 192, flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'}}>
-            {renderRightAction('Edit', '#d0cdc7', 192, progress)}
+            {renderRightAction('Edit basic', '#d0cdc7', 192, progress, 1)}
+            {renderRightAction('Edit advanced', '#928f8b', 192, progress, 2)}
         </View>
     );
 

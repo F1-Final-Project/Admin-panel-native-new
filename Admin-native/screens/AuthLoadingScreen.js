@@ -13,9 +13,9 @@ export default function AuthLoadingScreen() {
                 if (value === 'admin') {
                     navigate('AdminStore');
                 } else if (value === 'cook') {
-                    navigate('Cook');
+                    navigate('AdminStore');
                 } else if (value === 'waiter') {
-                    navigate('Waiter');
+                    navigate('AdminStore');
                 }
             } else {
                 navigate('Auth');

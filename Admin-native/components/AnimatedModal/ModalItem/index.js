@@ -1,31 +1,53 @@
-import React, {useContext, useCallback} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import {
-    Text,
-    TouchableHighlight,
-    Alert,
-    ScrollView,
     StyleSheet,
-    Dimensions, ImageBackground,
     View,
-    PanResponder, Animated,
 } from "react-native";
+
 import {TextInput} from "react-native-paper";
 import {Context} from '../../../context/appContext'
+import SearchableSelect from '../../SearchableSelect'
+import SearchableDropdown from 'react-native-searchable-dropdown';
+import * as sorted from "../../../lib/sorted";
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 
-export default function ModalItem() {
+
+export default function ModalItem(props) {
 
     const {dispatch, state} = useContext(Context);
+    const {data, setAllDish} = props;
 
+    const [categories, setCategories] = useState([]);
+    const [selectedItems, setSelectedItems] = useState([]);
+
+
+    useEffect(() => {
+
+        if (data) {
+            let reNameItems = sorted.changeObjectItems(data.categoryAll);
+
+            setCategories(reNameItems);
+            if (state.product.category) {
+                setSelectedItems(sorted.filterArrayItems([state.product.category], reNameItems));
+
+            }
+        }
+
+
+    }, [data, state.product]);
 
     const handleInputChange = (name, e) => {
         const updatedIngredient = Object.assign(state.product, {[name]: e});
+
         dispatch({
             ...{
                 type: 'onChangeInput',
                 payload: updatedIngredient,
+                saveOrClose: true,
             },
         })
     };
+
 
     /**
      * @desc Функция для отображения вывода зависящих от типа данных разных элементов
@@ -38,12 +60,12 @@ export default function ModalItem() {
         return Object.keys(state.product).map((itemProduct, index) => {
 
             let itemValue = state.product[itemProduct];
-
             if (itemProduct !== '_id'
                 && itemProduct !== '__v'
                 && itemProduct !== undefined
                 && typeof itemValue !== 'object'
                 && itemProduct !== '__typename'
+                && state.nameSection === 1
                 || itemValue === null) {
                 return <TextInput
                     label={itemProduct.toUpperCase()}
@@ -53,7 +75,7 @@ export default function ModalItem() {
                     keyboardAppearance="dark"
                     keyboardType='default'
                     value={itemValue === null ? 0 : itemValue.toString()}
-                    key={index}
+                    key={itemProduct}
                     multiline={true}
                 />
 
@@ -61,20 +83,83 @@ export default function ModalItem() {
                 && itemProduct !== '__v'
                 && itemProduct !== undefined
                 && typeof itemValue === 'object'
-                && itemValue !== null) {
-                return Array.isArray(itemValue) ? (
-                        <Text key={index}>Array</Text>
-                    )
-                    : (<Text key={index}>Select</Text>
+                && state.nameSection === 2
+                && itemValue !== null ) {
+                return Array.isArray(itemValue) ? (<SearchableSelect key={index} itemProduct={data.ingredientAll} newItemProduct={itemProduct}/>)
+
+                    : (<SearchableDropdown
+                            key={index}
+                            selectedItems={selectedItems}
+                            onItemSelect={item => {
+                                const newItems = selectedItems.map(i => i.id === item.id ? i : item);
+
+                                setTimeout(() => {
+                                    setSelectedItems(newItems);
+                                }, 0);
+
+                                const updatedIngredient = Object.assign(state.product, {[itemProduct]: newItems[0]});
+
+                                dispatch({
+                                    ...{
+                                        type: 'onChangeInput',
+                                        payload: updatedIngredient,
+                                        saveOrClose: true,
+                                    },
+                                });
+
+                            }}
+                            containerStyle={{padding: 5}}
+                            itemStyle={{
+                                padding: 10,
+                                marginTop: 2,
+                                backgroundColor: '#3e3e3e',
+                                borderColor: '#7a6c5b',
+                                borderWidth: 1,
+                                borderRadius: 5,
+
+                            }}
+                            itemTextStyle={{color: '#d0cdc7'}}
+                            itemsContainerStyle={{maxHeight: 240}}
+                            items={categories}
+                            chip={true}
+                            resetValue={false}
+                            textInputProps={
+                                {
+                                    placeholder: selectedItems.length > 0 ? selectedItems[0].name : '',
+                                    underlineColorAndroid: "transparent",
+                                    style: {
+                                        padding: 12,
+                                        borderWidth: 1,
+                                        borderColor: '#7a6c5b',
+                                        borderRadius: 5,
+                                    },
+                                    onTextChange: text => alert(text)
+                                }
+                            }
+                            placeholderTextColor='#d0cdc7'
+
+                            listProps={
+                                {
+                                    nestedScrollEnabled: true,
+                                }
+                            }
+                        />
                     )
             }
         })
     };
 
-    return (<View>
-            {handleInputItems()}
-            <Text>Modal Input</Text>
-        </View>
+    return (
+        <>
+            {state.nameSection === 1 ? (
+                    <KeyboardAwareScrollView>
+                        {handleInputItems()}
+                    </KeyboardAwareScrollView>)
+                : (
+                    <View>
+                        {handleInputItems()}
+                    </View>)}
+        </>
 
     )
 }
