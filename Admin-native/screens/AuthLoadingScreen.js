@@ -11,7 +11,7 @@ export default function AuthLoadingScreen() {
             const value = await AsyncStorage.getItem('permission');
             if (value !== null) {
                 if (value === 'admin') {
-                    navigate('Main');
+                    navigate('AdminStore');
                 } else if (value === 'cook') {
                     navigate('Cook');
                 } else if (value === 'waiter') {
