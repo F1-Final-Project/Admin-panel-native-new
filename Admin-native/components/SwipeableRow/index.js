@@ -1,15 +1,14 @@
-import React, {useContext, useEffect} from 'react';
-import {Animated, StyleSheet, Text, View, I18nManager, Alert} from 'react-native';
+import React, {useContext} from 'react';
+import {Animated, Text, View, I18nManager, Alert} from 'react-native';
 import {Context} from '../../context/appContext'
-
 import {RectButton} from 'react-native-gesture-handler';
-
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {styles} from './style';
 
 
 export default function AppleStyleSwipeableRow(props) {
 
-    const {ModalVisible, data, item, deleteItem} = props;
+    const {ModalVisible, data, item, deleteItem, RenderMoreBtn} = props;
     const {dispatch, state} = useContext(Context);
 
 
@@ -65,7 +64,7 @@ export default function AppleStyleSwipeableRow(props) {
 
             dispatch({
                 type: 'editItem',
-                payload: data.dish,
+                payload: data,
                 nameSection: id,
                 itemId: item.id,
             });
@@ -83,10 +82,11 @@ export default function AppleStyleSwipeableRow(props) {
         );
     };
 
+
     const renderRightActions = progress => (
         <View style={{width: 192, flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row'}}>
             {renderRightAction('Edit basic', '#d0cdc7', 192, progress, 1)}
-            {renderRightAction('Edit advanced', '#928f8b', 192, progress, 2)}
+            {RenderMoreBtn ?  renderRightAction('Edit advanced', '#928f8b', 192, progress, 2)  : null }
         </View>
     );
 
@@ -115,21 +115,4 @@ export default function AppleStyleSwipeableRow(props) {
     )
 }
 
-const styles = StyleSheet.create({
-    leftAction: {
-        flex: 1,
-        backgroundColor: "#E9C294",
-        justifyContent: 'center',
-    },
-    actionText: {
-        color: "#212121",
-        fontSize: 16,
-        backgroundColor: 'transparent',
-        padding: 10,
-    },
-    rightAction: {
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'center',
-    },
-});
+

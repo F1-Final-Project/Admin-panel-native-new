@@ -12,13 +12,12 @@ import {
 
 import Header from "../Header";
 import {Context} from "../../context/appContext";
-
-const {height, width} = Dimensions.get("window");
-
+import {styles} from './style';
 
 export default function AnimatedModal(props) {
 
-    const {dispatch, state} = useContext(Context);
+    const {height} = Dimensions.get("window");
+    const {state} = useContext(Context);
     const yTranslate = new Animated.Value(0);
     const {visible, title, children, onClose} = props;
 
@@ -65,21 +64,3 @@ export default function AnimatedModal(props) {
     )
 }
 
-const styles = {
-    container: {
-        position: "absolute",
-        height: height,
-        width: width,
-        bottom: -height,
-        backgroundColor: '#212121'
-    },
-    modalContent: {
-        flex: 1,
-        alignItems: "stretch",
-        paddingTop: 30
-    },
-    closeText: {
-        fontSize: 17,
-        color: "#E9C294",
-    }
-};

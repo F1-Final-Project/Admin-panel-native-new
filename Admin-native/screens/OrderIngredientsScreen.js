@@ -1,46 +1,10 @@
-import React from 'react'
-import {
-    Text,
-    TouchableHighlight,
-    Alert,
-    ScrollView,
-    StyleSheet,
-    Dimensions, ImageBackground,
-} from "react-native";
+import React from 'react';
+import OrderIngredients from '../components/OrderIngredients';
 
-import {TextInput} from 'react-native-paper';
-
-export default function IngredientsStoreScreen() {
-
-    return (
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-            <ImageBackground source={require('../img/bgc.jpg')} style={styles.projectBgc}>
-                <Text>Order Ingredient</Text>
-            </ImageBackground>
-        </ScrollView>
-    )
+export default function MenuScreen({navigation}) {
+    return <OrderIngredients navigation={navigation}/>
 }
 
-const {height, width} = Dimensions.get("window");
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#212121',
-    },
-    contentContainer: {
-        width: width,
-        height: height,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    projectBgc: {
-        width: width,
-        height: height,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-    },
-});
+MenuScreen.navigationOptions = {
+    header: null,
+};

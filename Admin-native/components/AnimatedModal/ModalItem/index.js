@@ -10,31 +10,43 @@ import SearchableSelect from '../../SearchableSelect'
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import * as sorted from "../../../lib/sorted";
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {styles} from './style';
 
 
 export default function ModalItem(props) {
 
     const {dispatch, state} = useContext(Context);
-    const {data, setAllDish} = props;
+    const {data} = props;
 
     const [categories, setCategories] = useState([]);
     const [selectedItems, setSelectedItems] = useState([]);
 
 
+
     useEffect(() => {
 
         if (data) {
-            let reNameItems = sorted.changeObjectItems(data.categoryAll);
+            if(data.categoryAll){
+                let reNameItems = sorted.changeObjectItems(data.categoryAll);
+                setCategories(reNameItems);
+                if (state.product.category) {
+                    setSelectedItems(sorted.filterArrayItems([state.product.category], reNameItems));
 
-            setCategories(reNameItems);
-            if (state.product.category) {
-                setSelectedItems(sorted.filterArrayItems([state.product.category], reNameItems));
-
+                }
             }
+
         }
 
 
     }, [data, state.product]);
+
+    /**
+     * @desc Функция для состояния ингредиента
+     * @desc useReducer - dispatch обновления состояния ингредиента
+     * @param name - названия поля
+     * @param e - вводные даннык
+     */
+
 
     const handleInputChange = (name, e) => {
         const updatedIngredient = Object.assign(state.product, {[name]: e});
@@ -52,8 +64,8 @@ export default function ModalItem(props) {
     /**
      * @desc Функция для отображения вывода зависящих от типа данных разных элементов
      * (String n Number - input)
-     * (Array - TransferList для выбора элементов и добавление в основной список)
-     * (Object - select для выбора одного элемента)
+     * (Array - SearchableDropdown multi = true для выбора элементов и добавление в основной список)
+     * (Object - SearchableDropdown для выбора одного элемента)
      */
 
     const handleInputItems = () => {
@@ -163,13 +175,5 @@ export default function ModalItem(props) {
 
     )
 }
-
-const styles = StyleSheet.create({
-    authTextField: {
-        width: "80%",
-        padding: 7,
-        backgroundColor: 'rgba(233, 194, 148, 0)'
-    },
-});
 
 

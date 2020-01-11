@@ -21,46 +21,62 @@ export default function SearchableSelect(props) {
         setSelectedItems(sorted.filterArrayItems(state.product.ingredients, reNameItems))
     }, []);
 
+    /**
+     * @desc Функция для выборки из списка ингредиентов чекбоксов
+     * @desc useReducer - dispatch обновления состояния списка ингредиенто
+     * @param item - елемент object
+     */
+
+    const handleItemSelect = item => {
+        const newItems = [...selectedItems, ...[item]];
+
+        setTimeout(() => {
+            setSelectedItems(newItems);
+        }, 0);
+
+        const updatedIngredient = Object.assign(state.product, {[newItemProduct]: newItems});
+
+        dispatch({
+            ...{
+                type: 'onChangeInput',
+                payload: updatedIngredient,
+                saveOrClose: true,
+            },
+        });
+    };
+
+    /**
+     * @desc Функция для удаления из списка ингредиентов чекбоксов
+     * @desc useReducer - dispatch обновления состояния списка ингредиенто
+     * @param item - елемент object
+     * @param index
+     */
+
+    const handleRemoveItemListCheked = (item, index) => {
+        const items = selectedItems.filter(sitem => sitem.id !== item.id);
+        setSelectedItems(items);
+
+        const updatedIngredient = Object.assign(state.product, {[newItemProduct]: items});
+
+        dispatch({
+            ...{
+                type: 'onChangeInput',
+                payload: updatedIngredient,
+                saveOrClose: true,
+            },
+        });
+
+    };
+
 
     return (
         <Fragment>
             <SearchableDropdown
                 multi={true}
                 selectedItems={selectedItems}
-                onItemSelect={item => {
-                    const newItems = [...selectedItems, ...[item]];
-
-                    setTimeout(() => {
-                        setSelectedItems(newItems);
-                    }, 0);
-
-                     const updatedIngredient = Object.assign(state.product, {[newItemProduct]: newItems});
-
-                    dispatch({
-                        ...{
-                            type: 'onChangeInput',
-                            payload: updatedIngredient,
-                            saveOrClose: true,
-                        },
-                    });
-
-
-                }}
+                onItemSelect={item => handleItemSelect(item)}
                 containerStyle={{padding: 5}}
-                onRemoveItem={(item, index) => {
-                    const items = selectedItems.filter(sitem => sitem.id !== item.id);
-                    setSelectedItems(items)
-
-                    const updatedIngredient = Object.assign(state.product, {[newItemProduct]: items});
-
-                    dispatch({
-                        ...{
-                            type: 'onChangeInput',
-                            payload: updatedIngredient,
-                            saveOrClose: true,
-                        },
-                    });
-                }}
+                onRemoveItem={(item, index) =>handleRemoveItemListCheked(item, index)}
                 itemStyle={{
                     padding: 10,
                     marginTop: 2,

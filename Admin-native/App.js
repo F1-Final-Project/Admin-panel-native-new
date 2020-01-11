@@ -2,19 +2,20 @@ import React, {useState} from 'react';
 import {AppLoading} from 'expo';
 import {Asset} from 'expo-asset';
 import * as Font from 'expo-font';
-
 import {AsyncStorage, Platform, StatusBar, StyleSheet, View} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
-
 import AppNavigator from './navigation/AppNavigator';
 import {ApolloProvider} from '@apollo/react-hooks';
 import {ApolloClient, HttpLink, InMemoryCache} from 'apollo-boost'
 import {concat} from 'apollo-link';
 import {setContext} from 'apollo-link-context';
 
-
 const httpLink = new HttpLink({uri: 'https://f1-graphql-server.herokuapp.com/graphql'});
+
+/**
+ * @desc Настройка контекста для передачи авторизационного Token на сервер
+ */
 
 const authHeader = setContext(
     request =>
@@ -23,11 +24,18 @@ const authHeader = setContext(
         })
 );
 
+/**
+ * @desc Конфигурация и кэширования ApolloClient с Link и Token
+ */
+
 const client = new ApolloClient({
     link: concat(authHeader, httpLink),
     cache: new InMemoryCache(),
 });
 
+/**
+ * @desc Настройка основных цветов приложения для react-native-paper
+ */
 
 const theme = {
     ...DefaultTheme,

@@ -3,10 +3,9 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import AuthLoadingStack from './AuthLoadingNavigator'
-import AuthStack from './AuthNavigation';
 import MenuStack from "./MenuNavigator";
 import AuthStack from './AuthNavigation'
-import IngredientsLoadingStack from './TestIngredientsNavigation'
+import AdminStack from './AdminNavigation'
 
 
 export default createAppContainer(
@@ -16,7 +15,7 @@ export default createAppContainer(
             Auth: AuthStack,
             Main: MainTabNavigator,
             Menu: MenuStack,
-            AdminStore: IngredientsLoadingStack
+            AdminStore: AdminStack
 
         },
         {
