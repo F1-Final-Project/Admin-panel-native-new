@@ -5,6 +5,7 @@ import OrderIngredients from '../screens/OrderIngredientsScreen'
 import MenuScreen from '../screens/MenuScreen'
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import {createAppContainer} from 'react-navigation';
+import MenuStack from './MenuNavigator'
 
 
 const DrawerNavigator = createDrawerNavigator({
@@ -18,7 +19,7 @@ const DrawerNavigator = createDrawerNavigator({
         screen: OrderIngredients
     },
     Menu: {
-        screen: MenuScreen
+        screen: MenuStack
     }
 },{
     drawerBackgroundColor: '#212121',
