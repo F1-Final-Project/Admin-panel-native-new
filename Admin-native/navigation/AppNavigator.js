@@ -5,6 +5,7 @@ import MainTabNavigator from './MainTabNavigator';
 import AuthLoadingStack from './AuthLoadingNavigator'
 import AuthStack from './AuthNavigation';
 import MenuStack from "./MenuNavigator";
+import WaiterStack from "./WaiterNavigator";
 
 export default createAppContainer(
     createSwitchNavigator({
@@ -12,7 +13,8 @@ export default createAppContainer(
             AuthLoading: AuthLoadingStack,
             Auth: AuthStack,
             Main: MainTabNavigator,
-            Menu: MenuStack,
+            // Menu: MenuStack,
+            Waiter: WaiterStack,
 
         },
         {
