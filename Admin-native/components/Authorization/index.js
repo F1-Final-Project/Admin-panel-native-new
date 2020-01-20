@@ -98,6 +98,7 @@ export default function AuthScreen() {
                   }
                 `
             }).then(res => {
+            console.log(res.data.login);
             AsyncStorage.setItem('id', res.data.login.id);
             AsyncStorage.setItem('permission', res.data.login.permission);
             AsyncStorage.setItem('token', res.data.login.token);
@@ -107,7 +108,7 @@ export default function AuthScreen() {
                 if (res) {
                     if (res.data.login.permission === 'admin') {
                         setTimeout(() => {
-                            navigate('Menu')
+                            navigate('AdminStoke')
                         }, 0)
                     } else if (res.data.login.permission === 'cook') {
                         setTimeout(() => {

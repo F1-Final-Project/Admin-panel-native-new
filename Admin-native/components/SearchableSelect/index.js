@@ -99,6 +99,7 @@ export default function SearchableSelect(props) {
                             borderWidth: 1,
                             borderColor: '#7a6c5b',
                             borderRadius: 5,
+                            color: '#d0cdc7'
                         },
                         onTextChange: text => alert(text)
                     }

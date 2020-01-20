@@ -13,6 +13,7 @@ import {setContext} from 'apollo-link-context';
 
 const httpLink = new HttpLink({uri: 'https://f1-graphql-server.herokuapp.com/graphql'});
 
+
 /**
  * @desc Настройка контекста для передачи авторизационного Token на сервер
  */
@@ -116,3 +117,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#212121',
     },
 });
+
+console.disableYellowBox = true;

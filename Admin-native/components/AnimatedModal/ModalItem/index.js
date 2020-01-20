@@ -128,10 +128,9 @@ export default function ModalItem(props) {
                                 borderColor: '#7a6c5b',
                                 borderWidth: 1,
                                 borderRadius: 5,
-
                             }}
                             itemTextStyle={{color: '#d0cdc7'}}
-                            itemsContainerStyle={{maxHeight: 240}}
+                            itemsContainerStyle={{maxHeight: 240, }}
                             items={categories}
                             chip={true}
                             resetValue={false}
@@ -144,6 +143,7 @@ export default function ModalItem(props) {
                                         borderWidth: 1,
                                         borderColor: '#7a6c5b',
                                         borderRadius: 5,
+                                        color: '#d0cdc7'
                                     },
                                     onTextChange: text => alert(text)
                                 }

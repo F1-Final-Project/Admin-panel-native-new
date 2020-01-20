@@ -17,6 +17,5 @@ export const clmns = (array) => {
 		result.push({ id: 'button', label: 'ACTION' })
 		return result
 	}
-	console.log('qweqeqw', result)
 	return result
 }
