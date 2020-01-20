@@ -78,7 +78,7 @@ export default ({order, modalVisible, setModalVisible, setShowOrder, updateData}
                                     <View style={{height: 'auto', paddingTop: 20, paddingBottom: 20, paddingLeft: 35, paddingRight:35}}>
                                     <View>
                                         <Text style={{color: '#82796d', height: 35}}>
-                                            Status: {!data.order.onKitchen&&!data.order.comleted? ' new order': data.order.comleted? ' completed': ' onKitchen'}
+                                            Status: {!data.order.onKitchen&&!data.order.comleted? ' new order': data.order.completed? ' completed': ' onKitchen'}
                                         </Text>
                                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                                         <Text style={{color: '#E9C294'}}>
