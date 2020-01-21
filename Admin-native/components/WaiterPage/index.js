@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {
-    StyleSheet,
+    AsyncStorage,
     ImageBackground,
     SafeAreaView,
-    Dimensions,
+    Text
 } from 'react-native'
 import ModalOrder from '../../components/Orders/Order'
 import Header from '../../components/Menu/Header/index'

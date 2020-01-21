@@ -2,24 +2,19 @@ import React, {useEffect, useState} from 'react'
 import {
     ScrollView,
     StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    ImageBackground,
-    TouchableHighlight,
-    SafeAreaView, Dimensions, AsyncStorage
+    View
 } from 'react-native';
 import TableItem from './table';
 
-export default function OrderPage({tables, updateData, orders, setOrders, setModalVisible, setOpenOrder, setActiveOrder}) {
+export default function OrderPage({tables, updateData, orders, setModalVisible, setOpenOrder, setActiveOrder}) {
 
-useEffect(()=>{
-    updateData();
-}, [])
+    useEffect(()=>{
+        updateData();
+    }, [])
 
-return(
-<ScrollView>
-{orders?(
+    return(
+            <ScrollView>
+                {orders?(
                 <View style={styles.container}>
                     {tables.map((item)=>{
                         return(
@@ -29,7 +24,7 @@ return(
                     )}
                 </View>): null}
             </ScrollView>
-)
+    )
 }
 
 const styles = StyleSheet.create({
@@ -40,23 +35,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
-    },
-    tables: {
-        margin      : 20,
-        padding        : 35,
-        width          : 120,
-        height         : 120,
-        borderRadius   : 5,
-        shadowRadius: 8,
-        borderWidth: 0.5,
-        borderColor:'#82796d',
-    },
-    empty: {
-        textAlign: 'center',
-        color: '#E9C294',
-    },
-    taken: {
-        textAlign: 'center',
-        color: '#82796d',
     },
 });

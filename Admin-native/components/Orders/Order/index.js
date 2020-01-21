@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {StyleSheet, Text, View, ImageBackground, ScrollView} from 'react-native';
+import {StyleSheet, Text, View, ImageBackground, ScrollView, AsyncStorage} from 'react-native';
 import Overlay from 'react-native-modal-overlay';
 import {useMutation, useQuery} from '@apollo/react-hooks';
 import {DELETE_ORDER, ORDER_BY_ID, UPDATE_ORDER} from '../../../graphql/order';
@@ -12,9 +12,10 @@ import DishInOrder from './DishInOrder';
 import CreateInvoiceButton from '../Buttons/CreateInvoice';
 import createInvoiceFromOrder from '../../../services/invoice/createInvoice';
 import PaymentMethodModal from "../../Modal/PaymentMethod";
+import DishInKitchen from "./DishInKitchen";
 
 export default ({order, modalVisible, setModalVisible, setShowOrder, updateData})=>{
-    const id=order.id;
+    const id=order._id;
 
     const { loading, error, data, refetch } = useQuery( ORDER_BY_ID, {
         variables: { id },
@@ -28,6 +29,8 @@ export default ({order, modalVisible, setModalVisible, setShowOrder, updateData}
             console.log('ERROR gql-refetch in Order', error)
         }
     };
+    const [staff, setStaff]= useState('');
+    AsyncStorage.getItem('id').then(id=>setStaff(id));
 
     const [deleteOrder] = useMutation(DELETE_ORDER);
     const [updateOrder] = useMutation(UPDATE_ORDER);
@@ -50,16 +53,16 @@ export default ({order, modalVisible, setModalVisible, setShowOrder, updateData}
     };
 
     const deleteItemInOrder=(dish)=>{
-        deleteDishInOrder(dish, data, updateCurrentOrder, updateOrder)
+        deleteDishInOrder(staff, dish, data, updateCurrentOrder, updateOrder)
     };
 
     const toKitchen=()=>{
-        toKitchenOrder(data, updateOrder);
+        toKitchenOrder(staff, data, updateOrder);
         handlePress();
     };
 
     const createInvoice=(method)=>{
-        createInvoiceFromOrder(data, addInvoice, deleteOrderById, method);
+        createInvoiceFromOrder(staff, data, addInvoice, deleteOrderById, method);
     };
 
         return (
@@ -78,20 +81,29 @@ export default ({order, modalVisible, setModalVisible, setShowOrder, updateData}
                                     <View style={{height: 'auto', paddingTop: 20, paddingBottom: 20, paddingLeft: 35, paddingRight:35}}>
                                     <View>
                                         <Text style={{color: '#82796d', height: 35}}>
-                                            Status: {!data.order.onKitchen&&!data.order.comleted? ' new order': data.order.completed? ' completed': ' onKitchen'}
+                                            Status: {!data.order.onKitchen&&!data.order.completed? ' new order': data.order.completed? ' completed': ' onKitchen'}
                                         </Text>
                                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                                         <Text style={{color: '#E9C294'}}>
                                             table# {data.order.table}
                                         </Text>
-                                        <Text style={{color: '#82796d'}}>
-                                            staff {data.order.staff? data.order.staff.lastName: null}
-                                        </Text>
                                         </View>
                                             {data.order.orderItems ? (data.order.orderItems).map((item,index)=>{
                                                 return(
+                                                    <>
+                                                    {!order.onKitchen && !order.completed ?
+                                                    (<DishInOrder order={data.order}
+                                                                 updateCurrentOrder={updateCurrentOrder} key={index}
+                                                                 dish={item} deleteItemInOrder={deleteItemInOrder}/>)
+                                                    : !order.completed?(
+                                                    <DishInKitchen dish={item}/>
+                                                ): null}
+                                                </>
+                                                    )}): null}
+                                            {data.order.newOrderItems ? (data.order.newOrderItems).map((item,index)=>{
+                                                return(
                                                     <DishInOrder order={data.order} updateCurrentOrder={updateCurrentOrder} key={index} dish={item} deleteItemInOrder={deleteItemInOrder}/>
-                                                        )}): null}
+                                                    )}): null}
                                         <Text style={{color: '#82796d', marginTop: 30}}>
                                             order price {data.order.orderPrice} $
                                         </Text>

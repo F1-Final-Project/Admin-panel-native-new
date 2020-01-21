@@ -33,9 +33,9 @@ export default function Table({orders, updateData, setModalVisible, setOpenOrder
                 (<View>
             {(orders.find((order) => order.table === table)) ?
                 (<TouchableOpacity key={table} onPress={() => {
-                    setModalVisible(true);
                     setOpenOrder(orders.find((order) => order.table === table));
                     setActiveOrder(orders.find((order) => order.table === table));
+                    setModalVisible(true);
                 }}>
                     <View style={styles.tables}>
                         <Text style={styles.taken}>table # {table}</Text>
@@ -56,14 +56,6 @@ export default function Table({orders, updateData, setModalVisible, setOpenOrder
 }
 
 const styles = StyleSheet.create({
-    container: {
-        width: '100%',
-        padding: 10,
-        flex: 1,
-        justifyContent: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
     tables: {
         margin      : 20,
         padding        : 35,
