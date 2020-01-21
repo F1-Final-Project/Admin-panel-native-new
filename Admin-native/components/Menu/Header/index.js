@@ -1,1 +1,28 @@
-import React, { useState } from 'react';import {Icon} from "react-native-elements";import {AsyncStorage, Text, View, TouchableOpacity} from "react-native";import {useNavigation} from "react-navigation-hooks";import {styles} from "./style";import CreateOrderButton from '../Buttons/CreateOrder';import ShowMenuButton from '../Buttons/ShowMenu';import ChangeOrderButton from '../Buttons/ChangeOrder';import ModalCreateOrder from '../../Modal/CreateOrder';import ModalChangeOrder from '../../Modal/ChangeOrder';export default ({orders, updateData, content, setContent, activeOrder, setActiveOrder, setModalVisible, setOpenOrder}) => {    const {navigate} = useNavigation();    const [createModalOpen, setCreateModalOpen] = useState(false);    const [changeModalOpen, setChangeModalOpen] = useState(false);    const onCloseCreateModal = () => setCreateModalOpen(false);    const onCloseChangeModal = () => setChangeModalOpen(false);    const handleCloseAsyncStorage = () => {        AsyncStorage.clear();        setTimeout(() => {            navigate('AuthLoading')        }, 0)    };    const tables=[1,2,3,4,5,6,7,8];    return (    <View>        <View style={styles.navigationHeaderContainer}>            <View style={styles.iconBurger}>                <Icon                      name='bars'                      type='font-awesome'                      color='#E9C294'                      onPress={() => handleCloseAsyncStorage()}                />            </View>            <ChangeOrderButton setModalOpen={setChangeModalOpen}/>            <ShowMenuButton content={content} setContent={setContent}/>            <CreateOrderButton setModalOpen={setCreateModalOpen}/>        </View>        {orders?        (<View>          <ModalCreateOrder modalOpen={createModalOpen} onCloseModal={onCloseCreateModal} orders={orders} updateData={updateData} tables={tables} />          <ModalChangeOrder modalOpen={changeModalOpen} onCloseModal={onCloseChangeModal} orders={orders} tables={tables} setActiveOrder={setActiveOrder}/>        </View>): null}        {activeOrder? (        <TouchableOpacity                        onPress={()=>{setOpenOrder(activeOrder); setModalVisible(true)}}                    >            <Text style={styles.openOrder}>open order table #{activeOrder.table}</Text>        </TouchableOpacity>        ):null}    </View>    )}
+import React from "react";
+import {Icon} from "react-native-elements";
+import {AsyncStorage, Dimensions, StyleSheet, Text, View} from "react-native";
+import {useNavigation} from "react-navigation-hooks";
+import {styles} from "./style";
+
+export default ({navigation}) => {
+    const {navigate} = useNavigation();
+
+    const handleCloseAsyncStorage = () => {
+        AsyncStorage.clear();
+
+        setTimeout(() => {
+            navigate('AuthLoading')
+        }, 0)
+    };
+    return (
+        <View style={styles.navigationHeaderContainer}>
+            <Icon containerStyle={styles.iconBurger}
+                  name='bars'
+                  type='font-awesome'
+                  color='#E9C294'
+                  onPress={() => navigation.openDrawer()}
+            />
+            <Text style={{bottom: 15, position: 'absolute', right: 15, color: '#E9C294',}} onPress={() => handleCloseAsyncStorage()}>Close session</Text>
+        </View>
+    )
+}

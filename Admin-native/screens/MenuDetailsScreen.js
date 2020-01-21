@@ -1,1 +1,1 @@
-import React, {useEffect, useState} from 'react';import MenuDetails from '../components/MenuDetails';export default function MenuDetailsScreen() {    return <MenuDetails/>}MenuDetailsScreen.navigationOptions = {    header: null,};
+import React, {useEffect, useState} from 'react';import MenuDetails from '../components/MenuDetails';export default function MenuDetailsScreen({navigation}) {    return <MenuDetails navigation={navigation}/>}MenuDetailsScreen.navigationOptions = {    header: null,};
