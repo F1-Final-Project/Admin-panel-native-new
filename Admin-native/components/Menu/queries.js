@@ -1,0 +1,1 @@
+import {gql} from 'apollo-boost';export const CATEGORY_ALL_QUERY = gql`    query Query{        categoryAll{            _id,            title,            icon        }    }`;

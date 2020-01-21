@@ -1,0 +1,1 @@
+import { compose } from 'recompose';import { graphql } from 'react-apollo';import { CATEGORY_ALL_QUERY } from './queries';export default compose(graphql(CATEGORY_ALL_QUERY));

@@ -1,0 +1,1 @@
+import {Dimensions, StyleSheet} from "react-native";let screenWidth = Dimensions.get('window').width;let screenHeight = Dimensions.get('window').height;export const styles = StyleSheet.create({    mainContainer: {        justifyContent: 'center',        marginLeft: 100,        width: screenWidth,        height: screenHeight    }});

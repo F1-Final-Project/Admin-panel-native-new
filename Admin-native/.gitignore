@@ -1,3 +1,4 @@
+Admin-native/node_modules/expo/build/launch/withExpoRoot.types.js
 node_modules/**/*
 .expo/*
 npm-debug.*
@@ -9,6 +10,8 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+.idea
+package-lock.json
 
 # macOS
 .DS_Store

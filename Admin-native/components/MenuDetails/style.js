@@ -1,0 +1,1 @@
+import {Dimensions, StyleSheet} from "react-native";let screenWidth = Dimensions.get('window').width;let screenHeight = Dimensions.get('window').height;export const styles = StyleSheet.create({    projectBgc: {        width: screenWidth,        height: screenHeight,        flex: 1,    },    DetailMainContainer: {        flex: 1,    },});

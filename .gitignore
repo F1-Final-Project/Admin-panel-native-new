@@ -1,0 +1,16 @@
+Admin-native/node_modules/expo/build/launch/withExpoRoot.types.js
+.expo/*
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+web-report/
+.idea
+./.idea
+package-lock.json
+# macOS
+.DS_Store

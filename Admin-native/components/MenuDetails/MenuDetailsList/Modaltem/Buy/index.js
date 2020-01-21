@@ -1,0 +1,1 @@
+import React from "react";import {    View,    Text,    Image,    TouchableOpacity} from 'react-native';export default ({dataInfo}) => {    return (        <View>            <Text>BUY</Text>        </View>    )}
