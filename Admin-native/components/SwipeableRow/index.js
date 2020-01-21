@@ -30,7 +30,7 @@ export default function AppleStyleSwipeableRow(props) {
                         onPress: () => close(),
                         style: 'cancel',
                     },
-                    {text: 'OK', onPress: () => deleteItem(item.id)},
+                    {text: 'OK', onPress: () => deleteItem(item._id)},
                 ],
                 {cancelable: false},
             );
@@ -66,7 +66,7 @@ export default function AppleStyleSwipeableRow(props) {
                 type: 'editItem',
                 payload: data,
                 nameSection: id,
-                itemId: item.id,
+                itemId: item._id,
             });
 
         };

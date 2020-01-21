@@ -23,7 +23,7 @@ import {
 import ApolloClient, {gql, } from 'apollo-boost';
 
 const client = new ApolloClient({
-    uri: 'https://f1-graphql-server.herokuapp.com/graphql',
+    uri: 'https://f1-graphql-node.herokuapp.com/graphql',
 });
 
 
@@ -108,7 +108,7 @@ export default function AuthScreen() {
                 if (res) {
                     if (res.data.login.permission === 'admin') {
                         setTimeout(() => {
-                            navigate('AdminStoke')
+                            navigate('AdminStore')
                         }, 0)
                     } else if (res.data.login.permission === 'cook') {
                         setTimeout(() => {

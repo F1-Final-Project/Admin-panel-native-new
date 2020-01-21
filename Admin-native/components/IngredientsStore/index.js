@@ -35,10 +35,11 @@ export default function IngredientStoreScreen({navigation}) {
             price,
             restInStock
         } = state.product;
+        console.log(state.itemId);
 
         updateIndgredient({
             variables: {
-                id: state.itemId,
+                _id: state.itemId,
                 title: title,
                 restInStock: restInStock,
                 description: description,
@@ -53,7 +54,7 @@ export default function IngredientStoreScreen({navigation}) {
      */
 
     const deleteItem = id => {
-        deleteIndgredient({variables: {id: id}});
+        deleteIndgredient({variables: {_id: id}});
         refetch()
 
     };
@@ -66,7 +67,7 @@ export default function IngredientStoreScreen({navigation}) {
                 <SafeAreaView style={styles.mainContainer}>
                     <Header navigation={navigation}/>
                     <Text style={styles.mainPhrase}>
-                        Editing ingredients
+                        Edit ingredients
                     </Text>
                     <Store data={data}
                            updateItems={updateItems}

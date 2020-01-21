@@ -41,7 +41,7 @@ export default function AnimatedModal(props) {
     }, [visible]);
 
 
-    let negativeHeight = -height + 35;
+    let negativeHeight = -height + 75;
 
     let modalMoveY = yTranslate.interpolate({
         inputRange: [0, 1],

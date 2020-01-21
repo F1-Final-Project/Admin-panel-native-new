@@ -2,20 +2,20 @@ import {gql} from "apollo-boost";
 
 export const GET_ALL_DISH = gql`{
   dishAll{
-    id,
+    _id,
     title,
     description,
     category {
-      id,
+      _id,
       title
     }
   },
   ingredientAll{
-    id,
+    _id,
     title,
   },
   categoryAll{
-  id,
+  _id,
   title,
   }
 }
@@ -23,7 +23,7 @@ export const GET_ALL_DISH = gql`{
 
 export const UPDATE_DISHES = gql`
 mutation updateDish(
-  $id: ID!
+  $_id: ID!
   $title: String!,
   $description: String!,
   $img: String!,
@@ -35,7 +35,7 @@ mutation updateDish(
 ) {
 
 updateDish(
-  id: $id
+  id: $_id
   title: $title,
   description: $description,
   img: $img,
@@ -45,21 +45,21 @@ updateDish(
   price: $price,
   weight: $weight) {
 
-  id,
+  _id,
   title,
   img,
   price,
   weight,
   description,
   category {
-  id,
+  _id,
   title },
   },
 }`;
 
 export const DELETE_DISH = gql`
-mutation deleteDish($id: ID){
-deleteDish(id: $id) {
-id
+mutation deleteDish($_id: ID){
+deleteDish(id: $_id) {
+_id
 }
 }`;

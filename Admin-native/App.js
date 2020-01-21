@@ -11,7 +11,7 @@ import {ApolloClient, HttpLink, InMemoryCache} from 'apollo-boost'
 import {concat} from 'apollo-link';
 import {setContext} from 'apollo-link-context';
 
-const httpLink = new HttpLink({uri: 'https://f1-graphql-server.herokuapp.com/graphql'});
+const httpLink = new HttpLink({uri: 'https://f1-graphql-node.herokuapp.com/graphql'});
 
 
 /**

@@ -31,14 +31,13 @@ export default function ModalItem(props) {
                 setCategories(reNameItems);
                 if (state.product.category) {
                     setSelectedItems(sorted.filterArrayItems([state.product.category], reNameItems));
-
                 }
             }
 
         }
 
-
     }, [data, state.product]);
+
 
     /**
      * @desc Функция для состояния ингредиента
@@ -91,7 +90,7 @@ export default function ModalItem(props) {
                     multiline={true}
                 />
 
-            } else if (itemProduct !== '_id'
+            } else if (itemProduct !== '_1id'
                 && itemProduct !== '__v'
                 && itemProduct !== undefined
                 && typeof itemValue === 'object'
@@ -103,7 +102,7 @@ export default function ModalItem(props) {
                             key={index}
                             selectedItems={selectedItems}
                             onItemSelect={item => {
-                                const newItems = selectedItems.map(i => i.id === item.id ? i : item);
+                                const newItems = selectedItems.map(i => i._id === item._id ? i : item);
 
                                 setTimeout(() => {
                                     setSelectedItems(newItems);

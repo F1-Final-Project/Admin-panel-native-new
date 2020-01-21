@@ -2,7 +2,7 @@ import {gql} from "apollo-boost";
 
 export const GET_ALL_DISH = gql`{
   ingredientAll{
-    id,
+    _id,
     title,
     restInStock,
     description,
@@ -13,20 +13,20 @@ export const GET_ALL_DISH = gql`{
 
 export const UPDATE_INGREDIENT = gql`
 mutation updateIngredient(
-  $id: ID!
+  $_id: ID!
   $title: String!,
   $restInStock: Int!,
   $description: String!,
   $price: Float!,
 ) {
 updateIngredient(
-  id: $id,
+  id: $_id,
   title: $title,
   restInStock: $restInStock,
   description: $description,
   price: $price,
  ) {
-    id,
+    _id,
     title,
     restInStock,
     description,
@@ -35,8 +35,8 @@ updateIngredient(
 }`;
 
 export const DELETE_INGREDIENT = gql`
-mutation deleteIngredient($id: ID){
-deleteIngredient(id: $id) {
-id
+mutation deleteIngredient($_id: ID){
+deleteIngredient(id: $_id) {
+_id
 }
 }`;

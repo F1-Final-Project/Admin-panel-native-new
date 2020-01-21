@@ -38,15 +38,15 @@ export default function DishStoreScreen({navigation}) {
             weight
         } = state.product;
 
-        const ingredientsId = ingredients.map(i => i.id);
+        const ingredientsId = ingredients.map(i => i._id);
 
         updateDish({
             variables: {
-                id: state.itemId,
+                _id: state.itemId,
                 title: title,
                 description: description,
                 img: img,
-                category: category.id,
+                category: category._id,
                 ingredients: ingredientsId,
                 additionalIngredients: ingredientsId,
                 price: Number(price),
@@ -61,7 +61,7 @@ export default function DishStoreScreen({navigation}) {
      */
 
     const deleteItem = id => {
-        deleteDish({variables: {id: id}});
+        deleteDish({variables: {_id: id}});
         refetch()
     };
 
@@ -73,7 +73,7 @@ export default function DishStoreScreen({navigation}) {
                 <SafeAreaView style={styles.mainContainer}>
                     <Header navigation={navigation}/>
                     <Text style={styles.mainPhrase}>
-                        Editing meals
+                        Edit meals
                     </Text>
                     <Store data={data}
                            updateItems={updateItems}

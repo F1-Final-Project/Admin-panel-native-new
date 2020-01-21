@@ -51,7 +51,7 @@ export default function Dishes(props) {
     };
 
     return (
-        <View>
+        <View style={{height: '90%'}}>
             <FlatList
                 data={allItemsStore === undefined ? [] : allItemsStore}
                 ItemSeparatorComponent={() => <View style={styles.separator}/>}

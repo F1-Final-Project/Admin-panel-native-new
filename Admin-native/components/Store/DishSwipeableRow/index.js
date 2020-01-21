@@ -14,7 +14,7 @@ export default function DishSwipeableRow(props) {
 
     useEffect(() => {
         getDish({
-            variables: {id: item.id}
+            variables: {_id: item._id}
         });
     }, [getDish, data]);
 

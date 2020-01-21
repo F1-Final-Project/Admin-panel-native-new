@@ -12,8 +12,10 @@ export default function IngredientsSwipeableRow(props) {
 
 
     useEffect(() => {
+
+
         getIngredient({
-            variables: {id: item.id}
+            variables: {_id: item._id}
         });
     }, [getIngredient, data]);
 

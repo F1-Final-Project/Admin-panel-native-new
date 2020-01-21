@@ -21,6 +21,8 @@ export default function SearchableSelect(props) {
         setSelectedItems(sorted.filterArrayItems(state.product.ingredients, reNameItems))
     }, []);
 
+    console.log('----->', selectedItems);
+
     /**
      * @desc Функция для выборки из списка ингредиентов чекбоксов
      * @desc useReducer - dispatch обновления состояния списка ингредиенто
@@ -29,6 +31,8 @@ export default function SearchableSelect(props) {
 
     const handleItemSelect = item => {
         const newItems = [...selectedItems, ...[item]];
+
+
 
         setTimeout(() => {
             setSelectedItems(newItems);
@@ -53,7 +57,7 @@ export default function SearchableSelect(props) {
      */
 
     const handleRemoveItemListCheked = (item, index) => {
-        const items = selectedItems.filter(sitem => sitem.id !== item.id);
+        const items = selectedItems.filter(sitem => sitem._id !== item._id);
         setSelectedItems(items);
 
         const updatedIngredient = Object.assign(state.product, {[newItemProduct]: items});
@@ -67,7 +71,6 @@ export default function SearchableSelect(props) {
         });
 
     };
-
 
     return (
         <Fragment>

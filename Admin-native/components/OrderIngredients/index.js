@@ -16,7 +16,7 @@ import {useQuery} from "@apollo/react-hooks";
 
 const GET_ALL_ORDERINGREDIENTS = gql`{
   orderIngredientAll{
-    id,
+    _id,
     order {
       title,
       restInStock
@@ -34,6 +34,8 @@ const GET_ALL_ORDERINGREDIENTS = gql`{
 export default function OrderIngredients({navigation}) {
 
     const {loading, error, data} = useQuery(GET_ALL_ORDERINGREDIENTS);
+
+    console.log(data);
 
     return (
         <ImageBackground source={require('../../img/bgc.jpg')} style={styles.projectBgc}>
